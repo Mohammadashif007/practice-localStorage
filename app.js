@@ -1,45 +1,36 @@
 const addProduct = () => {
-    const productInputField = document.getElementById("product");
-    const productInputText = productInputField.value;
-    const productQuantityField = document.getElementById("quantity");
-    const productQuantityText = productQuantityField.value;
-    productInputField.value = "";
-    productQuantityField.value = "";
-    displayProduct(productInputText, productQuantityText);
-    saveProductToLocal(productInputText, productQuantityText);
+    const productField = document.getElementById("product");
+    const productName = productField.value;
+    const quantityField = document.getElementById("quantity");
+    const quantity = quantityField.value;
+
+    productField.value = "";
+    quantityField.value = "";
+
+    displayProduct(productName, quantity);
+    saveDataToLocal(productName, quantity);
 };
+
 const displayProduct = (product, quantity) => {
     const ul = document.getElementById("ul");
     const li = document.createElement("li");
-    li.innerText = `${product} : ${quantity}`;
+    li.innerText = `${product}: ${quantity}`;
     ul.appendChild(li);
 };
 
-const getLocalStorage = () => {
-    let cart = {};
-    const storedCart = localStorage.getItem("cart");
-    if (storedCart) {
-        cart = JSON.parse(storedCart);
+const getLocalStorageData = () => {
+    let data = {};
+    const storedData = localStorage.getItem("data");
+    if (storedData) {
+        data = JSON.parse(storedData);
     }
-    return cart;
+    return data;
 };
 
-const saveProductToLocal = (product, quantity) => {
-    let savedCart = getLocalStorage();
-    savedCart[product] = quantity;
-    console.log(savedCart);
-    const cartStringify = JSON.stringify(savedCart);
-    localStorage.setItem("cart", cartStringify);
+const saveDataToLocal = (product, quantity) => {
+    const storedData = getLocalStorageData();
+    storedData[product] = quantity;
+    console.log(storedData);
+    const dataStringified = JSON.stringify(storedData);
+    localStorage.setItem("data", dataStringified);
 };
-
-const displayFromLocalStorage = () => {
-    const storedCart = getLocalStorage("cart");
-    for(const product in storedCart){
-        const quantity = storedCart[product]
-        console.log(product, quantity);
-        displayProduct(product, quantity)
-    }
-    console.log(storedCart);
-
-};
-displayFromLocalStorage();
